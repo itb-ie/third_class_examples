@@ -2,7 +2,8 @@ from urllib.request import urlopen
 
 url = "https://www.gutenberg.org/files/84/84-0.txt"
 local_name = "frankenstein.txt"
-
+import certifi
+import ssl
 
 def save_locally():
     """
@@ -10,7 +11,7 @@ def save_locally():
     :return: None
     """
     with open(local_name, "w") as local_fp:
-        with urlopen(url) as fp:
+        with urlopen(url, context=ssl.create_default_context(cafile=certifi.where())) as fp:
             for line in fp:
                 line = line.decode('utf-8-sig').replace("\n", "")
                 local_fp.write(line)
